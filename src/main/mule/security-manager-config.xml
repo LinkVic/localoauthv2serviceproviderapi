@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:spring="http://www.mulesoft.org/schema/mule/spring"
+    xmlns:os="http://www.mulesoft.org/schema/mule/os"
+    
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd
+    http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+    
+    <spring:config name="springConfig" files="ss-authentication-manager-config-beans.xml"/>
+
+    <global-property name="allSupportedGrantTypes" value="AUTHORIZATION_CODE,IMPLICIT,RESOURCE_OWNER_PASSWORD_CREDENTIALS,CLIENT_CREDENTIALS"/>
+
+    <spring:security-manager>
+        <spring:delegate-security-provider name="clientSecurityProvider"
+                                           delegate-ref="clientAuthenticationManager"/>
+        <spring:delegate-security-provider name="resourceOwnerSecurityProvider"
+                                           delegate-ref="resourceOwnerAuthenticationManager"/>
+    </spring:security-manager>
+	<os:object-store name="clientObjectStore" doc:name="Object store" doc:id="61b240b7-7766-4a94-89dd-be2959ad43b8" />
+	<os:object-store name="authorizationCodeObjectStore" doc:name="Object store" doc:id="ce30f245-6a51-4b2e-abd8-90c78b113705" entryTtl="600" persistent="true" />
+	<os:object-store name="tokenObjectStore" doc:name="Object store" doc:id="1b6169a2-8952-4c57-a1ef-db33808627a4" entryTtl="86400" persistent="true"/>
+	<os:object-store name="refreshTokenObjectStore" doc:name="Object store" doc:id="788560ba-4dc4-4b77-8cb5-d45c357e93ff" entryTtl="86400" persistent="true"/>
+
+</mule>
